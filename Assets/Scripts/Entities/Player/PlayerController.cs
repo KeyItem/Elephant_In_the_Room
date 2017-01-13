@@ -1,16 +1,53 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+[RequireComponent(typeof(InputManager))]
+[RequireComponent(typeof(HealthManager))]
+[RequireComponent(typeof(Rigidbody))]
 
-	// Use this for initialization
-	void Start () {
-		
+public class PlayerController : MonoBehaviour
+{
+    private Rigidbody playerRB;
+    
+    [Header("Player Movement Attributes")]
+    public float moveSpeed;
+    public float turnSpeed;
+    public float maxSpeed;
+    public float sprintSpeed;
+
+    [Header("Player Stamina Attributes")]
+    public float currentStamina;
+    private float maxStamina;
+    public float sprintCost;
+
+    [Header("Player Debug")]
+    public float currentSpeed;
+
+	void Start ()
+    {
+        playerRB = GetComponent<Rigidbody>  ();       
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+    {
+        GetSpeed();
 	}
+
+    void GetSpeed()
+    {
+        currentSpeed = playerRB.velocity.magnitude;
+    }
+
+    public void Move(float zAxis)
+    {
+        if (currentSpeed < maxSpeed)
+        {
+            playerRB.AddForce(transform.forward * zAxis * moveSpeed);
+        }
+    }
+
+    public void Turn(float xAxis)
+    {
+        transform.Rotate(Vector3.up * xAxis * moveSpeed * Time.deltaTime);
+    }
 }
