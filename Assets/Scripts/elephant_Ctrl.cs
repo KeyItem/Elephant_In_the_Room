@@ -36,7 +36,6 @@ public class elephant_Ctrl : MonoBehaviour {
 
         //foot animation and follow
         feetArray[footSelect].GetComponent<footMove>().enabled = true;
-        feetArray[footSelect].transform.position = Vector3.Lerp(feetArray[footSelect].transform.position, feetArray[footSelect].transform.position + new Vector3(0,8,0), stompTimer);
 
         //delay
         nxtStomp = Random.Range(minStompTimr, maxStompTimr);

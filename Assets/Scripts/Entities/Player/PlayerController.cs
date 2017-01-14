@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
     {
         if (currentSpeed < maxSpeed)
         {
-            playerRB.AddForce(transform.forward * zAxis * moveSpeed);
+            playerRB.AddForce(transform.forward * zAxis * moveSpeed * Time.deltaTime, ForceMode.Impulse);
         }
     }
 

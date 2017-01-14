@@ -51,13 +51,13 @@ public class ElephantController : MonoBehaviour
     {
         if (canMove)
         {
-            if (isFollowingPath) //Follows Player
+            if (isFollowingPath) //Follows Patrol
             {
                 Vector3 interceptVec = Player.transform.position - transform.position;
             }
             else
             {
-               //For Patrol
+               //Follow Player
             }
         }
     }
@@ -65,7 +65,7 @@ public class ElephantController : MonoBehaviour
     private void ManageStep()
     {
         if (stepTimer.TimerIsDone() && canStep)
-        {
+        {          
             CalculateNextFoot();
         }
     }
@@ -81,16 +81,16 @@ public class ElephantController : MonoBehaviour
                 feet[randValue].GetComponent<FootController>().StepUp();
 
                 nextStepTime = Random.Range(minTime, maxTime);
-                Debug.Log("Step!");
 
                 previousFoot = randValue;
 
                 stepTimer.ResetTimer(nextStepTime);
+
+                canStep = false;
             }
             else
             {
                 CalculateNextFoot();
-                Debug.Log("Recalculating");
             }
         }    
     }
