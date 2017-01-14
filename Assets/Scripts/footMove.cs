@@ -1,45 +1,41 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class footMove : MonoBehaviour {
+public class footMove : MonoBehaviour
+{
+    private TimerClass timerClass;
 
-    public Transform target;
+    [Header("Step Variables")]
+    public GameObject Player;
 
-    public float turnOff = 2f;
+    private Vector3 stepUpVec;
+    private Vector3 stepDownVec;
 
-    public float moveSpeed;
+    public float stepUpDistance;
+    public float stepForwardDistance;
 
-    void OnEnable()
+    public float footStepSpeed;
+
+    void Start()
     {
-        GetComponent<Rigidbody>().isKinematic = false;
-        turnOff = 2f;
+        timerClass = new TimerClass();
+
+        CalculateNextStep();
     }
 
     void Update ()
     {
-        //mov to playr
-        transform.position = Vector3.MoveTowards(transform.position, new Vector3(target.position.x, transform.position.y, target.position.z), moveSpeed * Time.deltaTime);
+        
+    }
 
-        //stomp
-        if(turnOff > 1f)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, transform.position.y + 8f, transform.position.z), moveSpeed * Time.deltaTime);
-        }
-        else
-        {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, transform.position.y - 8f, transform.position.z), moveSpeed * Time.deltaTime);
-        }
+    void CalculateNextStep()
+    {
+        Vector3 currentPos = transform.position;
 
-        //timer
-        turnOff -= Time.deltaTime;
+        Vector3 playerPos = Player.transform.position;
 
-        //disable
-        if (turnOff < 0)
-        {
-            GetComponent<Rigidbody>().isKinematic = true;
-            this.enabled = false;
+        Vector3 interceptVec = playerPos - currentPos;
 
-        }
+        Debug.Log(interceptVec);
     }
 }
