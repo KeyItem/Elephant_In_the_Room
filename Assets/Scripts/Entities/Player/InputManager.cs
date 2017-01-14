@@ -42,6 +42,21 @@ public class InputManager : MonoBehaviour
             {
                 playerController.Move(zAxis);
             }
+
+            if (Input.GetKeyDown(Jump))
+            {
+                playerController.Jump();
+            }
+
+            if (Input.GetKey(Sprint))
+            {
+                playerController.Sprint();
+            }
+
+            if (Input.GetKeyUp(Sprint))
+            {
+                playerController.StopSprint();
+            }
         }       
     }
 }

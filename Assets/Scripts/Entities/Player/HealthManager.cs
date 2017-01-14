@@ -5,13 +5,18 @@ public class HealthManager : MonoBehaviour
 {
     [Header("Health Attributes")]
     public float currentHealth;
-    private float maxHealth;
+    public float maxHealth;
 
     public float healthRegenRate;
 
     public bool canRegenerateHealth;
     public bool isDead;
 	
+    void Start()
+    {
+        maxHealth = currentHealth;
+    }
+
 	void Update ()
     {
         ManageHealth();
@@ -31,6 +36,11 @@ public class HealthManager : MonoBehaviour
             {
                 currentHealth += healthRegenRate * Time.deltaTime;
             }
+        }
+
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
         }
     }
 }
