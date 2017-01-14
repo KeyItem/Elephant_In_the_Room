@@ -1,16 +1,62 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour {
+public class InputManager : MonoBehaviour
+{
+    private PlayerController playerController;
 
-	// Use this for initialization
-	void Start () {
-		
+    [Header("Player Controls")]
+    public KeyCode Jump;
+    public KeyCode Sprint;
+    public KeyCode Interact;
+
+    private float xAxis;
+    private float zAxis;
+
+    [Header("Input Attributes")]
+    public bool canReceiveInput;
+
+	void Start ()
+    {
+        playerController = GetComponent<PlayerController>();        
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+    {
+        CheckForInput();
 	}
+
+    void CheckForInput()
+    {
+        if (canReceiveInput)
+        {
+            xAxis = Input.GetAxis("Horizontal");
+            zAxis = Input.GetAxis("Vertical");
+
+            if (xAxis != 0)
+            {
+                playerController.Turn(xAxis);
+            }
+
+            if (zAxis != 0)
+            {
+                playerController.Move(zAxis);
+            }
+
+            if (Input.GetKeyDown(Jump))
+            {
+                playerController.Jump();
+            }
+
+            if (Input.GetKey(Sprint))
+            {
+                playerController.Sprint();
+            }
+
+            if (Input.GetKeyUp(Sprint))
+            {
+                playerController.StopSprint();
+            }
+        }       
+    }
 }
