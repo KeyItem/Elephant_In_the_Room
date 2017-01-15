@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
 
     public void Sprint()
     {
-        if (currentStamina > sprintCost)
+        if (currentStamina > sprintCost && currentSpeed != 0)
         {
             currentStamina -= sprintCost * Time.deltaTime;
             moveSpeed = sprintSpeed;
