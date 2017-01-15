@@ -5,6 +5,8 @@ public class CheesePickup : MonoBehaviour
 {
     private TimerClass cheeseTimer;
 
+    private AudioSource sfxAudio;
+
     private PlayerController playerController;
     private MapController mapController;
 
@@ -29,6 +31,8 @@ public class CheesePickup : MonoBehaviour
         cheeseTimer = new TimerClass();
 
         cheeseRenderer = GetComponent<Renderer>();
+
+        sfxAudio = GetComponent<AudioSource>();
 
         FindSpoilTime();
     }
@@ -62,12 +66,14 @@ public class CheesePickup : MonoBehaviour
             {
                 GivePlayerStamina();
                 mapController.cheeseCount++;
+                sfxAudio.Play();
                 Destroy(gameObject);
             }
             else
             {
                 RemovePlayerStamina();
                 mapController.cheeseCount++;
+                sfxAudio.Play();
                 Destroy(gameObject);
             }
         }

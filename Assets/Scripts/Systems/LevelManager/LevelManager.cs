@@ -8,4 +8,9 @@ public class LevelManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+    public static void LoadLevel(int levelID)
+    {
+        SceneManager.LoadScene(levelID);
+    }
 }

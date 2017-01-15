@@ -108,6 +108,7 @@ public class MapController : MonoBehaviour
             if (ranValue < cheeseSpawnChance)
             {
                 GameObject newCheese = Instantiate(cheesePickup, cheeseAnchorArray[i].position, cheeseAnchorArray[i].transform.rotation, cheeseAnchorArray[i]);
+                newCheese.transform.localPosition = Vector3.zero;
             }
 
             maxCheese = cheeseAnchorArray.Length;

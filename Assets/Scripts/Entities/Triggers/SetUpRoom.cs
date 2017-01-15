@@ -7,6 +7,8 @@ public class SetUpRoom : MonoBehaviour
 
     public GameObject currentRoom;
 
+    private int count;
+
     private void Start()
     {
         mapController = GameObject.FindGameObjectWithTag("MapController").GetComponent<MapController>();
@@ -16,7 +18,12 @@ public class SetUpRoom : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            mapController.GenerateCheese(currentRoom);
+            if (count == 0)
+            {
+                mapController.GenerateCheese(currentRoom);
+                Debug.Log("Spawning Cheese Motherfucker");
+                count++;
+            }    
         }
     }
 }
