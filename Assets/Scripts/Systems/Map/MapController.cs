@@ -9,6 +9,7 @@ public class MapController : MonoBehaviour
 
     private GameObject roomHolder;
 
+    public GameObject entrancePrefab;
     public GameObject exitPrefab;
 
     public int numberOfRoomsToSpawn;
@@ -23,30 +24,35 @@ public class MapController : MonoBehaviour
     {
         roomHolder = GameObject.FindGameObjectWithTag("RoomHolder");
 
-        SpawnFirstRoom();
+        GenerateFirstRoom();
     }
 
-    void SpawnFirstRoom()
+    void GenerateFirstRoom()
     {
         GameObject startPoint = GameObject.FindGameObjectWithTag("MouseholeStart");
 
         GameObject newRoom = Instantiate(housePrefabList[0], startPoint.transform.position, startPoint.transform.rotation, roomHolder.transform);
 
-        SpawnExit(newRoom);
+        GenerateExit(newRoom);
     }
 
-    void SpawnRoom(GameObject newRoom)
+    void GenerateRoom(GameObject newRoom)
     {
 
     }
 
-    void SpawnExit(GameObject newRoom)
+    void GenerateEntrance(Vector3 spawnVec)
+    {
+
+    }
+
+    void GenerateExit(GameObject newRoom)
     {
         Transform exitAnchor = newRoom.transform.GetChild(0).transform.Find("ExitAnchorHolder");
 
         Transform[] exitAnchorArray = exitAnchor.GetComponentsInChildren<Transform>();
 
-        int randValue = Random.Range(0, exitAnchorArray.Length);
+        int randValue = Random.Range(1, exitAnchorArray.Length);
 
         GameObject newExit = Instantiate(exitPrefab, exitAnchorArray[randValue].position, exitAnchorArray[randValue].rotation, exitAnchorArray[randValue].transform);
     }
@@ -59,7 +65,7 @@ public class MapController : MonoBehaviour
 
         Transform[] cheeseAnchorArray = cheeseAnchor.GetComponentsInChildren<Transform>();
 
-        for (int i = 0; i < cheeseAnchorArray.Length; i++)
+        for (int i = 1; i < cheeseAnchorArray.Length; i++)
         {
             float ranValue = Random.value;
 
