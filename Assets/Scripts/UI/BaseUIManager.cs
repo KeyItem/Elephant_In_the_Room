@@ -46,6 +46,8 @@ public class BaseUIManager : MonoBehaviour
                 startingUI.SetActive(false);
                 startingUIisActive = false;
                 inputManager.canReceiveInput = true;
+                healthBarImage.enabled = true; //show bars when started
+                staminaBarImage.enabled = true;
                 StateManager.StartGame();
             }
         }
