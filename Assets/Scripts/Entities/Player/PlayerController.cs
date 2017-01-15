@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player Jump Attributes")]
     public float jumpHeight;
+    public float jumpCost;
     private int jumpCount;
     public int jumpTimes;
     public float jumpRayLength;
@@ -115,10 +116,11 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-        if (isGrounded)
+        if (isGrounded && currentStamina > jumpCost)
         {
             playerRB.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
             jumpCount++;
+            currentStamina -= jumpCost;
             
             if (jumpCount >= jumpTimes)
             {

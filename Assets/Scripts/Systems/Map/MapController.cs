@@ -5,54 +5,68 @@ using UnityEngine;
 public class MapController : MonoBehaviour
 {
     [Header("Generation Attributes")]
+    public List<GameObject> housePrefabList;
+
     private GameObject roomHolder;
 
-    public GameObject[] roomPrefabs;
     public GameObject exitPrefab;
 
-    public GameObject currentRoom;
-    public GameObject entranceAnchor;
+    public int numberOfRoomsToSpawn;
 
-    private Transform startingAnchor;
+    private Transform startPointAnchor;
+    private Transform exitPointAnchor;
 
-    void Start()
+    [Header("Pickup Attributes")]
+    public GameObject cheesePickup;
+
+    private void Start()
     {
         roomHolder = GameObject.FindGameObjectWithTag("RoomHolder");
 
-        startingAnchor = GameObject.Find("StartingAnchor").transform;
-
-        GenerateFirstRoom();
+        SpawnFirstRoom();
     }
 
-    public void GenerateFirstRoom()
+    void SpawnFirstRoom()
     {
-        entranceAnchor = GameObject.Find("EntranceAnchor");
-        GameObject newRoom = Instantiate(roomPrefabs[0], startingAnchor.transform.position, startingAnchor.transform.rotation, roomHolder.transform);
-        currentRoom = newRoom;
-        GenerateRoomExit(newRoom);
+        GameObject startPoint = GameObject.FindGameObjectWithTag("MouseholeStart");
+
+        GameObject newRoom = Instantiate(housePrefabList[0], startPoint.transform.position, startPoint.transform.rotation, roomHolder.transform);
+
+        SpawnExit(newRoom);
     }
 
-    public void GenerateNextRoom(GameObject newRoom)
+    void SpawnRoom(GameObject newRoom)
     {
-       
+
     }
 
-    public void GenerateRoomExit(GameObject newRoom)
+    void SpawnExit(GameObject newRoom)
     {
-        Transform exitHolder = newRoom.transform.GetChild(0).FindChild("ExitAnchors");
-        Transform[] exitArray = exitHolder.GetComponentsInChildren<Transform>();
-        int randValue = Random.Range(0, exitArray.Length);
-        GameObject newExit = Instantiate(exitPrefab, exitArray[randValue].transform.position, Quaternion.identity, exitArray[randValue]);
-        newExit.transform.position = Vector3.zero;
-    }
+        Transform exitAnchor = newRoom.transform.GetChild(0).transform.Find("ExitAnchorHolder");
 
-    public void GenerateObstacles(GameObject newRoom)
-    {
+        Transform[] exitAnchorArray = exitAnchor.GetComponentsInChildren<Transform>();
 
+        int randValue = Random.Range(0, exitAnchorArray.Length);
+
+        GameObject newExit = Instantiate(exitPrefab, exitAnchorArray[randValue].position, exitAnchorArray[randValue].rotation, exitAnchorArray[randValue].transform);
     }
 
     public void GenerateCheese(GameObject newRoom)
     {
+        float cheeseSpawnChance = newRoom.GetComponent<RoomDynamics>().pickupSpawnChance;
 
+        Transform cheeseAnchor = newRoom.transform.GetChild(0).transform.Find("PickupAnchorHolder");
+
+        Transform[] cheeseAnchorArray = cheeseAnchor.GetComponentsInChildren<Transform>();
+
+        for (int i = 0; i < cheeseAnchorArray.Length; i++)
+        {
+            float ranValue = Random.value;
+
+            if (ranValue < cheeseSpawnChance)
+            {
+                GameObject newCheese = Instantiate(cheesePickup, cheeseAnchorArray[i].position, cheeseAnchorArray[i].rotation, cheeseAnchorArray[i]);
+            }
+        }
     }
 }
