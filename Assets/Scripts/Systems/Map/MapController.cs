@@ -9,6 +9,10 @@ public class MapController : MonoBehaviour
 
     private GameObject roomHolder;
 
+    private GameObject Player;
+
+    public Transform teleportPoint;
+
     public GameObject entrancePrefab;
     public GameObject exitPrefab;
 
@@ -24,6 +28,8 @@ public class MapController : MonoBehaviour
     {
         roomHolder = GameObject.FindGameObjectWithTag("RoomHolder");
 
+        Player = GameObject.FindGameObjectWithTag("Player");
+
         GenerateFirstRoom();
     }
 
@@ -36,14 +42,25 @@ public class MapController : MonoBehaviour
         GenerateExit(newRoom);
     }
 
-    void GenerateRoom(GameObject newRoom)
+    public void GenerateRoom(GameObject newRoom)
     {
+        Transform startPoint = newRoom.transform.Find("StartPoint");
 
+        GameObject newRoom1 = Instantiate(housePrefabList[0], startPoint.transform.position, startPoint.transform.rotation, roomHolder.transform);
+
+        GenerateExit(newRoom1);
     }
 
-    void GenerateEntrance(Vector3 spawnVec)
+    public void GenerateEntrance(Vector3 spawnVec)
     {
+        GameObject newEntrance = Instantiate(entrancePrefab, spawnVec, Quaternion.identity);
 
+        Transform spawnPoint = newEntrance.transform.Find("TeleportPoint");
+
+        Player.transform.position = spawnPoint.position;
+        Player.transform.rotation = spawnPoint.rotation;
+
+        GenerateRoom(newEntrance);
     }
 
     void GenerateExit(GameObject newRoom)
@@ -55,6 +72,8 @@ public class MapController : MonoBehaviour
         int randValue = Random.Range(1, exitAnchorArray.Length);
 
         GameObject newExit = Instantiate(exitPrefab, exitAnchorArray[randValue].position, exitAnchorArray[randValue].rotation, exitAnchorArray[randValue].transform);
+
+        Vector3 entranceVec = newExit.transform.position;
     }
 
     public void GenerateCheese(GameObject newRoom)
@@ -71,7 +90,7 @@ public class MapController : MonoBehaviour
 
             if (ranValue < cheeseSpawnChance)
             {
-                GameObject newCheese = Instantiate(cheesePickup, cheeseAnchorArray[i].position, cheeseAnchorArray[i].rotation, cheeseAnchorArray[i]);
+                GameObject newCheese = Instantiate(cheesePickup, cheeseAnchorArray[i].position, cheeseAnchorArray[i].transform.rotation, cheeseAnchorArray[i]);
             }
         }
     }

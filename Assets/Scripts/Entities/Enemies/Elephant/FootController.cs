@@ -78,4 +78,12 @@ public class FootController : MonoBehaviour
         nextPos = stepDownVec;
         isMakingAStepDown = true;
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Player was stepped on!");
+        }
+    }
 }
