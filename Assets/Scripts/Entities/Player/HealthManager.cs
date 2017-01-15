@@ -7,9 +7,10 @@ public class HealthManager : MonoBehaviour
     public float currentHealth;
     public float maxHealth;
 
-    public float healthRegenRate;
+    public float healthReductionRate;
 
-    public bool canRegenerateHealth;
+    public bool canReduceHealth;
+
     public bool isDead;
 	
     void Start()
@@ -24,23 +25,26 @@ public class HealthManager : MonoBehaviour
 
     void ManageHealth()
     {
-        if (currentHealth <= 0)
+        if (StateManager.state == "Playing")
         {
-            isDead = true;
-            Debug.Log("Player has died");
-        }
-
-        if (canRegenerateHealth)
-        {
-            if (currentHealth < maxHealth)
+            if (currentHealth <= 0)
             {
-                currentHealth += healthRegenRate * Time.deltaTime;
+                isDead = true;
+                Debug.Log("Player has died");
             }
-        }
 
-        if (currentHealth > maxHealth)
-        {
-            currentHealth = maxHealth;
-        }
+            if (canReduceHealth)
+            {
+                if (currentHealth > 0)
+                {
+                    currentHealth -= healthReductionRate * Time.deltaTime;
+                }
+            }
+
+            if (currentHealth > maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
+        }       
     }
 }

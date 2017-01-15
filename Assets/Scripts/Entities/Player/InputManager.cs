@@ -8,13 +8,13 @@ public class InputManager : MonoBehaviour
     [Header("Player Controls")]
     public KeyCode Jump;
     public KeyCode Sprint;
-    public KeyCode Interact;
+    public KeyCode RELOAD_DEV;
 
     private float xAxis;
     private float zAxis;
 
     [Header("Input Attributes")]
-    public bool canReceiveInput;
+    public bool canReceiveInput = false;
 
 	void Start ()
     {
@@ -56,6 +56,11 @@ public class InputManager : MonoBehaviour
             if (Input.GetKeyUp(Sprint))
             {
                 playerController.StopSprint();
+            }
+
+            if (Input.GetKeyDown(RELOAD_DEV))
+            {
+                LevelManager.ReloadLevel();
             }
         }       
     }

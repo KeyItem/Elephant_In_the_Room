@@ -5,33 +5,74 @@ using UnityEngine;
 public class MapController : MonoBehaviour
 {
     [Header("Generation Attributes")]
-    public GameObject[] roomPrefabs;
-    public GameObject currentRoom;
+    public List<GameObject> housePrefabList;
 
-    public List<GameObject> exitAnchorList;
+    private GameObject roomHolder;
 
-    public void GenerateNextRoom()
+    public GameObject entrancePrefab;
+    public GameObject exitPrefab;
+
+    public int numberOfRoomsToSpawn;
+
+    private Transform startPointAnchor;
+    private Transform exitPointAnchor;
+
+    [Header("Pickup Attributes")]
+    public GameObject cheesePickup;
+
+    private void Start()
+    {
+        roomHolder = GameObject.FindGameObjectWithTag("RoomHolder");
+
+        GenerateFirstRoom();
+    }
+
+    void GenerateFirstRoom()
+    {
+        GameObject startPoint = GameObject.FindGameObjectWithTag("MouseholeStart");
+
+        GameObject newRoom = Instantiate(housePrefabList[0], startPoint.transform.position, startPoint.transform.rotation, roomHolder.transform);
+
+        GenerateExit(newRoom);
+    }
+
+    void GenerateRoom(GameObject newRoom)
     {
 
     }
 
-    public void GenerateExit()
+    void GenerateEntrance(Vector3 spawnVec)
     {
 
     }
 
-    public void GenerateEntrance()
+    void GenerateExit(GameObject newRoom)
     {
+        Transform exitAnchor = newRoom.transform.GetChild(0).transform.Find("ExitAnchorHolder");
 
+        Transform[] exitAnchorArray = exitAnchor.GetComponentsInChildren<Transform>();
+
+        int randValue = Random.Range(1, exitAnchorArray.Length);
+
+        GameObject newExit = Instantiate(exitPrefab, exitAnchorArray[randValue].position, exitAnchorArray[randValue].rotation, exitAnchorArray[randValue].transform);
     }
 
-    public void GenerateObstacles()
+    public void GenerateCheese(GameObject newRoom)
     {
+        float cheeseSpawnChance = newRoom.GetComponent<RoomDynamics>().pickupSpawnChance;
 
-    }
+        Transform cheeseAnchor = newRoom.transform.GetChild(0).transform.Find("PickupAnchorHolder");
 
-    public void GenerateCheese()
-    {
+        Transform[] cheeseAnchorArray = cheeseAnchor.GetComponentsInChildren<Transform>();
 
+        for (int i = 1; i < cheeseAnchorArray.Length; i++)
+        {
+            float ranValue = Random.value;
+
+            if (ranValue < cheeseSpawnChance)
+            {
+                GameObject newCheese = Instantiate(cheesePickup, cheeseAnchorArray[i].position, cheeseAnchorArray[i].rotation, cheeseAnchorArray[i]);
+            }
+        }
     }
 }
