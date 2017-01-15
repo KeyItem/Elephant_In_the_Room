@@ -9,7 +9,9 @@ public class FootController : MonoBehaviour
     public bool isMakingAStepUp;
     public bool isMakingAStepDown;
 
-    private float stepDistance;
+    private float stepDistanceMin;
+    private float stepDistanceMax;
+
     private float stepHeight;
     private float stepSpeed;
 
@@ -22,7 +24,9 @@ public class FootController : MonoBehaviour
     {
         elephantController = gameObject.transform.parent.GetComponent<ElephantController>();
 
-        stepDistance = elephantController.stepDistance;
+        stepDistanceMin = elephantController.stepDistanceMin;
+        stepDistanceMax = elephantController.stepDistanceMax;
+
         stepSpeed = elephantController.stepSpeed;
         stepHeight = elephantController.stepHeight;
 	}
@@ -65,7 +69,8 @@ public class FootController : MonoBehaviour
 
     public void StepUp()
     {
-        stepUpVec = transform.position + (transform.forward * (stepDistance / 2));
+        float randValue = Random.Range(stepDistanceMin, stepDistanceMax);
+        stepUpVec = transform.position + (transform.forward * (randValue / 2));
         stepUpVec.y = stepHeight;
         nextPos = stepUpVec;
         isMakingAStepUp = true;
@@ -73,7 +78,9 @@ public class FootController : MonoBehaviour
 
     public void StepDown()
     {
-        stepDownVec = transform.position + (transform.forward * (stepDistance / 2));
+        float randValue = Random.Range(stepDistanceMin, stepDistanceMax);
+        Vector3 randMoveVec = new Vector3(randValue, 0, 0);
+        stepDownVec = transform.position + randMoveVec;
         stepDownVec.y = 0;
         nextPos = stepDownVec;
         isMakingAStepDown = true;
@@ -86,6 +93,7 @@ public class FootController : MonoBehaviour
             if (isMakingAStepDown)
             {
                 Debug.Log("Player was stepped on!");
+                StateManager.GameOver();
             }
         }
     }

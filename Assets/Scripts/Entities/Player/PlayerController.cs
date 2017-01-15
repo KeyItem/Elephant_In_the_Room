@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour
             playerRB.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
             jumpCount++;
             currentStamina -= jumpCost;
-            
+                        
             if (jumpCount >= jumpTimes)
             {
                 isGrounded = false;

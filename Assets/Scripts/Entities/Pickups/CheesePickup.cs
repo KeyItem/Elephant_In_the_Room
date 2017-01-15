@@ -4,7 +4,10 @@ using UnityEngine;
 public class CheesePickup : MonoBehaviour
 {
     private TimerClass cheeseTimer;
+
     private PlayerController playerController;
+    private MapController mapController;
+
     private Renderer cheeseRenderer;
 
     [Header("Cheese Pickup Attributes")]
@@ -20,6 +23,8 @@ public class CheesePickup : MonoBehaviour
     void Awake()
     {
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
+        mapController = GameObject.FindGameObjectWithTag("MapController").GetComponent<MapController>();
 
         cheeseTimer = new TimerClass();
 
@@ -56,11 +61,13 @@ public class CheesePickup : MonoBehaviour
             if (!hasSpoiled)
             {
                 GivePlayerStamina();
+                mapController.cheeseCount++;
                 Destroy(gameObject);
             }
             else
             {
                 RemovePlayerStamina();
+                mapController.cheeseCount++;
                 Destroy(gameObject);
             }
         }

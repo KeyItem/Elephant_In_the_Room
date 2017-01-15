@@ -20,9 +20,12 @@ public class SpawnNextRoom : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Vector3 exitVec = transform.position + new Vector3(0, 0, nextRoomDistance);
+            if (mapController.canGoForward)
+            {
+                Vector3 exitVec = transform.position + new Vector3(0, 0, nextRoomDistance);
 
-            mapController.GenerateEntrance(exitVec);
+                mapController.GenerateEntrance(exitVec);
+            }     
         }
     }
 }

@@ -21,6 +21,10 @@ public class MapController : MonoBehaviour
     private Transform startPointAnchor;
     private Transform exitPointAnchor;
 
+    public int cheeseCount = 0;
+    private int maxCheese;
+    public bool canGoForward = false;
+
     [Header("Pickup Attributes")]
     public GameObject cheesePickup;
 
@@ -31,6 +35,19 @@ public class MapController : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player");
 
         GenerateFirstRoom();
+    }
+
+    void Update()
+    {
+        ManageCheese();
+    }
+
+    void ManageCheese()
+    {
+        if (cheeseCount >= maxCheese)
+        {
+            canGoForward = true;
+        }
     }
 
     void GenerateFirstRoom()
@@ -92,6 +109,8 @@ public class MapController : MonoBehaviour
             {
                 GameObject newCheese = Instantiate(cheesePickup, cheeseAnchorArray[i].position, cheeseAnchorArray[i].transform.rotation, cheeseAnchorArray[i]);
             }
+
+            maxCheese = cheeseAnchorArray.Length;
         }
     }
 }

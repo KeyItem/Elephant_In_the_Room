@@ -24,7 +24,9 @@ public class ElephantController : MonoBehaviour
     public bool canStep;
 
     [Header("Step Attributes")]
-    public float stepDistance;
+    public float stepDistanceMin;
+    public float stepDistanceMax;
+
     public float stepSpeed;
     public float stepHeight;
 
