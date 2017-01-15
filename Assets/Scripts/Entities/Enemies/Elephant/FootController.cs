@@ -83,7 +83,10 @@ public class FootController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Player was stepped on!");
+            if (isMakingAStepDown)
+            {
+                Debug.Log("Player was stepped on!");
+            }
         }
     }
 }
